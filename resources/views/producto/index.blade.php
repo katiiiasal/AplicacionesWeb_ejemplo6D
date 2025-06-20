@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="{{route('Producto.create')}}">Agregar nuevo elemento</a>
     <h3>Lista de productos</h3>
     <table>
         <tr>
@@ -23,7 +24,7 @@
         <td>{{ $pro->descripcion }}</td>
         <td>{{ $pro->precio }}</td>
         <td>{{ $pro->existencia }} </td>
-        <td> <a href="">Modificar</a></td>
+        <td> <a href="{{route('Producto.edit', $pro->id)}}">Modificar</a></td>
         <td>
             {{--Metodo del profesor para eliminar (QUE NI SIRVE XDDDD)--}}
             {{-- <form onsubmit="return confirm('Seguro que quiere eliminiar?')" action="producto/{{$pro->id}}" method="post">
@@ -32,7 +33,7 @@
                 <input type="submit" value="Eliminar">
             </form> --}}
             {{--Metodo de la caracola magica--}}
-            <form onsubmit="return confirm('¿Seguro que quieres eliminar?')" action="{{ route('Producto.destroy', $pro->id) }}" method="POST">
+            <form onsubmit="return confirm('¿Seguro que quieres eliminar?')" action="{{route('Producto.destroy', $pro->id)}}" method="POST">
                 @csrf
                 @method('DELETE')
                 <input type="submit" value="Eliminar">
