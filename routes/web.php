@@ -1,17 +1,23 @@
 <?php
 
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::resource('producto', ProductoController::class)->except("show");
-Route::resource('Producto', ProductoController::class)->except("show");
-Route::get('/producto', [ProductoController::class, 'verproductos'])->name('producto');
-Route::get('/producto/index', [ProductoController::class, 'index'])->name('producto.index'); 
-Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
-Route::post('/producto/edit', [ProductoController::class, 'edit'])->name('producto.edit');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+Route::resource('producto', ProductoController::class)->except("show")->middleware(['auth']);
+
+require __DIR__.'/auth.php';
